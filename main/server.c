@@ -10,7 +10,7 @@
 #include "server.h"
 
 #define MAX_CLIENTS 1
-#define TAG "server"
+#define TAG "app_server"
 
 #define PORT 5760  // Default for QGroundControl
 
