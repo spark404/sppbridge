@@ -304,6 +304,24 @@ _Noreturn void bt_mavlink_outgoing_task(void *pvParameters) {
     }
 }
 
+_Noreturn void indicator_task(void *pvParameters) {
+    // Enable the onboard LED
+    ESP_ERROR_CHECK_WITHOUT_ABORT(gpio_set_direction(BUILTIN_LED_PIN, GPIO_MODE_OUTPUT));
+    ESP_ERROR_CHECK_WITHOUT_ABORT(gpio_set_level(BUILTIN_LED_PIN, GPIO_LOW));
+
+    bool led_toggle = 0;
+
+    for(;;) {
+        if (spp_peer_found) {
+            ESP_ERROR_CHECK_WITHOUT_ABORT(gpio_set_level(BUILTIN_LED_PIN, GPIO_LOW));
+        } else {
+            led_toggle = !led_toggle;
+            ESP_ERROR_CHECK_WITHOUT_ABORT(gpio_set_level(BUILTIN_LED_PIN, led_toggle));
+        }
+        vTaskDelay(pdMS_TO_TICKS(250));
+    }
+}
+
 esp_err_t configure_peer() {
     if (strlen(peer_device_addr_str) != 17) {
         return ESP_ERR_INVALID_ARG;
@@ -361,10 +379,7 @@ _Noreturn void app_main(void) {
     ESP_ERROR_CHECK(wifi_ap_init());
     ESP_ERROR_CHECK(bt_spp_server_init());
 
-    // Enable the onboard LED
-    ESP_ERROR_CHECK_WITHOUT_ABORT(gpio_set_direction(BUILTIN_LED_PIN, GPIO_MODE_OUTPUT));
-    ESP_ERROR_CHECK_WITHOUT_ABORT(gpio_set_level(BUILTIN_LED_PIN, GPIO_LOW));
-
+    xTaskCreate(indicator_task, "Indicator Task", 1024, NULL, 20, NULL);
     xTaskCreate(bt_mavlink_outgoing_task, "BT Mavlink Task", 4096, NULL, 9, NULL);
     xTaskCreate(mavlink_handler_task, "Mavlink Task", 4096, NULL, 10, NULL);
     xTaskCreate(server_task, "Server Task", 4096, NULL, 15, NULL);
