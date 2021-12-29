@@ -389,8 +389,7 @@ static esp_err_t wifi_ap_init() {
                     .ssid_len = strlen(CONFIG_AP_ESSID),
                     .ssid_hidden = false,
                     .password = CONFIG_AP_KEY,
-                    .authmode = WIFI_AUTH_WPA2_PSK,
-                    .pairwise_cipher = WIFI_CIPHER_TYPE_AES_GMAC256,
+                    .authmode = WIFI_AUTH_WPA_WPA2_PSK,
                     .max_connection = 2
             },
     };

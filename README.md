@@ -8,6 +8,13 @@ device specified in the config and sets up bi-directional communication on TCP
 port 5760. Devices like an iPad can connect to the WiFi access point and connect to
 the TCP port to interact with the drone.
 
+Known Issues
+============
+* When the bluetooth connection is not established the firmware continuously stays  
+  in disovery mode to find the configured device. During the discovery the wifi
+  performance is limited and this might result in not being able to connect to
+  the WiFi network. 
+
 Test setup
 ==========
 
