@@ -1,1 +1,25 @@
-# Empty
+menu "SPPBridge Configuration"
+    config PEER_HWADDR
+        string "Bluetooth MAC"
+        default "00:00:00:00:00:00"
+        help
+            Enter the mac address of your bluetooth device
+
+    config PEER_PIN
+        string "Bluetooth PIN"
+        default "1234"
+        help
+            Enter the pin to authenticate with the bluetooth device
+
+    config AP_ESSID
+        string "ESSID for the AP"
+        default "SppBridge"
+        help
+            The name of the announced WiFi network
+
+    config AP_KEY
+        string "WPA2 passphrase for the wifi network"
+        default ""
+        help
+            The passphase required to connect to the AP, leave empty to create an open network
+endmenu

@@ -1,0 +1,3 @@
+[submodule "components/esp32-mavlink"]
+	path = components/esp32-mavlink
+	url = https://github.com/spark404/esp32-mavlink.git
